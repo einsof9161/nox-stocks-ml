@@ -8,35 +8,49 @@ from bs4 import BeautifulSoup
 
 jieba.set_dictionary('dict.txt.big')  # using Traditional Chinese dict
 
+boardName = 'stock'
+index = ''
+ptt = 'https://www.ptt.cc'
+pttUrl = ptt + '/bbs/' + boardName + '/index' + index + '.html'
 
-def crawler():
 
-    boardName = 'stock'
-    articleID = ''
-    ptt = 'https://www.ptt.cc'
-
-    pttUrl = ptt + '/bbs/' + boardName + '/index' + articleID + '.html'
-    # print(pttUrl)
-    soup = BeautifulSoup(getRequest(pttUrl).text, "lxml")
-    print(soup.prettify())
+def crawler(url):
+    global index
+    soup = BeautifulSoup(getRequest(url).text, "lxml")
+    # print(soup.prettify())
 
     for link in soup.find_all('a'):
         try:
-            url = ptt + link.get('href')
-            print(url)
             href = link.get('href')
-            tmp = href.split('/')
-            print(tmp)
+            hrefsplit = href.split('/')
+            # print(hrefsplit)
             indexpattern = re.compile(r'index\d+.html')
-            indexmatch = indexpattern.match(tmp[3])
+            indexmatch = indexpattern.match(hrefsplit[3])
             if indexmatch:
-                print(indexmatch.group())
+                # print(indexmatch.group())
+                if indexmatch.group() > 'index1.html':
+                    indexNO = indexmatch.group()
+                    indexNO = filter(str.isdigit, indexNO)
+                    # print(indexNO)
+                    if index == '' or int(index) > int(indexNO):
+                        index = indexNO
+                    nextpage = (
+                        ptt + '/bbs/' + boardName + '/index' + index + '.html'
+                    )
+                    # if url < pttUrl:
+                    #    print('{} < {}'.format(url, pttUrl))
+                    #    nextpage = url
+                    #    print('nextpage is:{}'.format(nextpage))
             # parse(url)
-            # time.sleep(0.01)
+            print(ptt + href)
+            time.sleep(0.2)
         except:
-            print('###except')
+            pass
+            # print('====except====')
             # raw_input()
-            print(link.get('href'))
+            # print(link.get('href'))
+
+    crawler(nextpage)
 
 
 def getRequest(link):
@@ -58,4 +72,4 @@ def parse(link):
     #    print("/ ".join(seg_list))
 
 
-crawler()
+crawler(pttUrl)
