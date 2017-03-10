@@ -1,0 +1,9 @@
+{% if latest_stock_list %}
+    <ul>
+    {% for stock in latest_stock_list %}
+        <li><a href="/stocks/{{ stock.number }}/">{{ stock.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No Stock info are available.</p>
+{% endif %}
