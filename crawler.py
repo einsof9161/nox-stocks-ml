@@ -41,8 +41,8 @@ def crawler(url):
                     #    print('{} < {}'.format(url, pttUrl))
                     #    nextpage = url
                     #    print('nextpage is:{}'.format(nextpage))
-            # parse(url)
-            print(ptt + href)
+            parse(ptt + href)
+            # print(ptt + href)
             time.sleep(0.2)
         except:
             pass
@@ -64,12 +64,13 @@ def getRequest(link):
 
 
 def parse(link):
+    print(link)
     soup = BeautifulSoup(getRequest(link).text, "lxml")
     mainContent = soup.find(id="main-content")
-    # print mainContent.text
-    # for string in mainContent.stripped_strings:
-    #    seg_list = jieba.cut(string, cut_all=False)
-    #    print("/ ".join(seg_list))
+    print mainContent.text
+    for string in mainContent.stripped_strings:
+        seg_list = jieba.cut(string, cut_all=False)
+        print("/ ".join(seg_list))
 
 
 crawler(pttUrl)
