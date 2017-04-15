@@ -1,9 +1,11 @@
-# *- coding: utf-8 -*-
+# coding=utf-8
 
 import time
 import requests
 import jieba
 import re
+import io
+import codecs
 import logging
 from bs4 import BeautifulSoup
 from gensim.models import word2vec
@@ -76,15 +78,15 @@ def parse(link):
     soup = BeautifulSoup(getRequest(link).text, "lxml")
     mainContent = soup.find(id="main-content")
     print mainContent.text
-    with open("segout.txt", 'a') as out:
+    with codecs.open('segout.txt','w','utf-8') as out:
         for string in mainContent.stripped_strings:
             seg_list = jieba.cut(string, cut_all=False)
             # print("/ ".join(seg_list))
             for word in seg_list:
                 if word not in stopwordset:
                     try:
-                        b_str = word.encode('big5')
-                        out.write(b_str + '  ')
+                        #b_str = word.encode('big5')
+                        out.write(word + '  ')
                         # print word
                     except:
                         print word
@@ -108,7 +110,9 @@ print ('now we have three function,')
 print ('function 1 require an URL, output a splitted content to segout.txt')
 print ('fun2 is a demo, automatic crawl and split all article in stock board')
 print ('fun3 try to read segout.txt, and train the word2vec model, not working')
-Input = raw_input('input 1 or 2 or 3:')
+print ('fun4 try to write to test.txt, and train the word2vec model')
+
+Input = raw_input('input 1 or 2 or 3 or 4:')
 if Input == '1':
     print ('parsing test, output a word-splitted ptt content')
     site = raw_input('please input a ptt website URL:')
@@ -119,3 +123,6 @@ if Input == '2':
 if Input == '3':
     print('Word2Vec test, not avaliable at the time')
     ToVec()
+if Input == '4':
+    print('for test to output to the file ->text.txt')
+    parse('https://www.ptt.cc/bbs/Stock/M.1491383171.A.130.html')
