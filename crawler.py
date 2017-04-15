@@ -104,6 +104,10 @@ def ToVec():
     # null_word=0, trim_rule=None, sorted_vocab=1, batch_words=10000)
 
 
+print ('now we have three function,')
+print ('function 1 require an URL, output a splitted content to segout.txt')
+print ('fun2 is a demo, automatic crawl and split all article in stock board')
+print ('fun3 try to read segout.txt, and train the word2vec model, not working')
 Input = raw_input('input 1 or 2 or 3:')
 if Input == '1':
     print ('parsing test, output a word-splitted ptt content')

@@ -2,6 +2,7 @@ staticfiles
 db.sqlite3
 .DS_Store
 segout.txt
+w2v.model.bin
 
 # Byte-compiled / optimized / DLL files
 __pycache__
